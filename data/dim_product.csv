@@ -1,0 +1,41 @@
+ProductKey,ProductID,ProductName,ProductLine,SubCategory,UnitCost,UnitPrice,MarginPercent
+1,PRD-001,AcousticMax ANC Headphones,Electronics & Gadgets,Audio,110.0,249.99,56.0
+2,PRD-002,SoundPulse Portable Speaker,Electronics & Gadgets,Audio,35.0,79.99,56.24
+3,PRD-003,PulseFit Smartwatch V3,Electronics & Gadgets,Wearables,85.0,199.99,57.5
+4,PRD-004,AuraGlow Smart Desk Lamp,Electronics & Gadgets,Smart Home,28.0,69.99,59.99
+5,PRD-005,NovaPower 25K Power Bank,Electronics & Gadgets,Accessories,18.0,44.99,59.99
+6,PRD-006,HyperView 4K Ultra Webcam,Electronics & Gadgets,Peripherals,45.0,119.99,62.5
+7,PRD-007,OmniCharge 3-in-1 Wireless Pad,Electronics & Gadgets,Accessories,22.0,59.99,63.33
+8,PRD-008,VibeEar Wireless Earbuds,Electronics & Gadgets,Audio,40.0,99.99,60.0
+9,PRD-009,Merino Wool Thermal Crew,Apparel & Accessories,Tops,32.0,89.99,64.44
+10,PRD-010,All-Weather Tech Trenchcoat,Apparel & Accessories,Outerwear,75.0,219.99,65.91
+11,PRD-011,AirFlex Running Jogger,Apparel & Accessories,Activewear,24.0,64.99,63.07
+12,PRD-012,Artisan Vegetable Tanned Belt,Apparel & Accessories,Leather Goods,18.0,49.99,63.99
+13,PRD-013,Urban Commuter Backpack 22L,Apparel & Accessories,Bags,38.0,110.0,65.45
+14,PRD-014,Classic Tailored Oxford Shirt,Apparel & Accessories,Tops,22.0,68.0,67.65
+15,PRD-015,Raw Selvedge Slim Denim,Apparel & Accessories,Bottoms,42.0,128.0,67.19
+16,PRD-016,BreezeKnit Performance Polo,Apparel & Accessories,Tops,19.0,54.99,65.45
+17,PRD-017,Cast Iron Dutch Oven 6-Qt,Home & Kitchen,Cookware,45.0,129.99,65.38
+18,PRD-018,Precision Conical Burr Grinder,Home & Kitchen,Coffee,55.0,149.99,63.33
+19,PRD-019,Damascus Steel Chef's Knife 8in,Home & Kitchen,Cutlery,36.0,99.99,64.0
+20,PRD-020,HEPA PureAir Room Filter,Home & Kitchen,Appliances,60.0,169.99,64.7
+21,PRD-021,ThermoSmart Insulated Carafe,Home & Kitchen,Drinkware,16.0,42.99,62.78
+22,PRD-022,Bamboo Organic Cutting Board Set,Home & Kitchen,Accessories,12.0,34.99,65.7
+23,PRD-023,Microfiber Ultra Chef Apron,Home & Kitchen,Textiles,9.0,26.99,66.65
+24,PRD-024,Nordic Ceramic Dinnerware 16-Pc,Home & Kitchen,Tableware,52.0,139.99,62.85
+25,PRD-025,Radiance Botanical Serum 50ml,Beauty & Personal Care,Skincare,21.0,68.0,69.12
+26,PRD-026,Hyaluronic Moisture Cream,Beauty & Personal Care,Skincare,16.0,48.0,66.67
+27,PRD-027,Ultrasonic Facial Cleansing Wand,Beauty & Personal Care,Devices,28.0,85.0,67.06
+28,PRD-028,Velvet Cedar Eau De Parfum,Beauty & Personal Care,Fragrance,38.0,115.0,66.96
+29,PRD-029,Mineral Broad Spectrum SPF 50,Beauty & Personal Care,Suncare,11.0,32.0,65.62
+30,PRD-030,BioKeratin Repair Hair Mask,Beauty & Personal Care,Haircare,14.0,38.0,63.16
+31,PRD-031,Rose Quartz Gua Sha Sculptor,Beauty & Personal Care,Tools,7.0,24.0,70.83
+32,PRD-032,Overnight Recovery Peptide Oil,Beauty & Personal Care,Skincare,25.0,78.0,67.95
+33,PRD-033,Summit Pro 2-Person Backpacking Tent,Sports & Outdoors,Camping,115.0,289.99,60.34
+34,PRD-034,Carbon Fiber Trekking Poles,Sports & Outdoors,Hiking,28.0,79.99,65.0
+35,PRD-035,AeroGrip Pro Yoga Mat 6mm,Sports & Outdoors,Fitness,22.0,64.99,66.15
+36,PRD-036,HydroShield 32oz Insulated Flask,Sports & Outdoors,Hydration,12.0,34.99,65.7
+37,PRD-037,SpeedStream Road Cycling Helmet,Sports & Outdoors,Cycling,48.0,129.99,63.07
+38,PRD-038,Adjustable Cast Iron Kettlebell 40lb,Sports & Outdoors,Fitness,42.0,99.99,58.0
+39,PRD-039,QuickDry Microfiber Camp Towel,Sports & Outdoors,Accessories,6.5,18.99,65.77
+40,PRD-040,Trailblazer Waterproof Daypack,Sports & Outdoors,Bags,34.0,89.99,62.22

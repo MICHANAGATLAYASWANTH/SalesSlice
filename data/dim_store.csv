@@ -1,0 +1,9 @@
+StoreKey,StoreID,StoreName,City,State,Region,StoreType,SquareFootage,ManagerName,MonthlySalesTarget,TrafficMultiplier
+1,STR-001,Manhattan Flagship,New York,NY,East,Flagship,18500,Elena Rostova,450000.0,1.45
+2,STR-002,Beverly Hills Metro,Los Angeles,CA,West,Urban Metro,14200,Marcus Vance,380000.0,1.25
+3,STR-003,Michigan Ave Downtown,Chicago,IL,Midwest,Downtown,12000,Sarah Jenkins,310000.0,1.05
+4,STR-004,Galleria Pavilion,Houston,TX,South,Suburban Mall,16000,David Chen,340000.0,1.15
+5,STR-005,Lincoln Road Center,Miami,FL,South,Tourist Destination,9800,Sofia Morales,290000.0,0.95
+6,STR-006,Westlake Promenade,Seattle,WA,West,Urban Commercial,11500,James Thorne,280000.0,0.92
+7,STR-007,NorthPark Center,Dallas,TX,South,Suburban Mall,15000,Amanda Lewis,320000.0,1.1
+8,STR-008,Back Bay Boutique,Boston,MA,East,Historic Boutique,8200,Robert O'Connor,230000.0,0.78

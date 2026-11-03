@@ -1,0 +1,7 @@
+PromotionKey,PromotionName,DiscountPct,StartDate,EndDate
+1,No Promotion,0.0,2023-07-01,2024-06-30
+2,Summer Splash Deals,0.1,2023-07-01,2023-07-31
+3,Back to Campus Sprint,0.15,2023-08-15,2023-09-10
+4,Black Friday Mega Savings,0.25,2023-11-20,2023-11-30
+5,Winter Holiday Warmup,0.15,2023-12-10,2023-12-25
+6,Spring Refresh Sale,0.1,2024-04-01,2024-04-20
