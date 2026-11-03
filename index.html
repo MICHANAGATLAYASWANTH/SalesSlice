@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SalesSlice – Interactive Retail Analytics Dashboard</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+    .active-tab { border-bottom: 3px solid #0284c7; color: #0284c7; font-weight: 600; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
+
+  <!-- Header & Navigation -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 card-shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-sky-600 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow">
+            SS
+          </div>
+          <div>
+            <h1 class="text-xl font-bold text-slate-900 tracking-tight">SalesSlice</h1>
+            <p class="text-xs text-slate-500 font-medium">Interactive Retail Analytics • Power BI & SQL Architecture</p>
+          </div>
+        </div>
+        <!-- Period & Metadata Badge -->
+        <div class="flex items-center space-x-4">
+          <div class="hidden md:flex flex-col text-right">
+            <span class="text-xs font-semibold text-slate-700">12-Month Reporting Window</span>
+            <span class="text-xs text-slate-500">July 2023 – June 2024 • 8 Stores • 5 Product Lines</span>
+          </div>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+            ● Live Interactive Model
+          </span>
+          <a href="presentation/index.html" class="inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 transition">
+            📊 View Slides (PPT)
+          </a>
+        </div>
+      </div>
+
+      <!-- Slicer & Filter Bar -->
+      <div class="py-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+        <!-- Tab Navigation -->
+        <nav class="flex space-x-6 text-sm">
+          <button onclick="switchTab('tab-exec')" id="btn-tab-exec" class="tab-btn pb-2 text-slate-600 hover:text-sky-600 active-tab">
+            1. Executive Overview
+          </button>
+          <button onclick="switchTab('tab-stores')" id="btn-tab-stores" class="tab-btn pb-2 text-slate-600 hover:text-sky-600">
+            2. Store Locations
+          </button>
+          <button onclick="switchTab('tab-products')" id="btn-tab-products" class="tab-btn pb-2 text-slate-600 hover:text-sky-600">
+            3. Product Lines
+          </button>
+          <button onclick="switchTab('tab-customers')" id="btn-tab-customers" class="tab-btn pb-2 text-slate-600 hover:text-sky-600">
+            4. Customer & Time
+          </button>
+        </nav>
+
+        <!-- Interactive Global Slicers -->
+        <div class="flex items-center space-x-3 text-xs">
+          <div class="flex items-center space-x-1.5">
+            <label for="store-filter" class="font-semibold text-slate-600">Store:</label>
+            <select id="store-filter" onchange="applyFilters()" class="bg-slate-100 border border-slate-300 rounded px-2.5 py-1 text-slate-700 focus:outline-none focus:ring-1 focus:ring-sky-500">
+              <option value="ALL">All 8 Locations</option>
+              <option value="Manhattan Flagship">Manhattan Flagship (NY)</option>
+              <option value="Beverly Hills Metro">Beverly Hills Metro (CA)</option>
+              <option value="Michigan Ave Downtown">Michigan Ave Downtown (IL)</option>
+              <option value="Galleria Pavilion">Galleria Pavilion (TX)</option>
+              <option value="Lincoln Road Center">Lincoln Road Center (FL)</option>
+              <option value="Westlake Promenade">Westlake Promenade (WA)</option>
+              <option value="NorthPark Center">NorthPark Center (TX)</option>
+              <option value="Back Bay Boutique">Back Bay Boutique (MA)</option>
+            </select>
+          </div>
+
+          <div class="flex items-center space-x-1.5">
+            <label for="line-filter" class="font-semibold text-slate-600">Product Line:</label>
+            <select id="line-filter" onchange="applyFilters()" class="bg-slate-100 border border-slate-300 rounded px-2.5 py-1 text-slate-700 focus:outline-none focus:ring-1 focus:ring-sky-500">
+              <option value="ALL">All 5 Lines</option>
+              <option value="Electronics & Gadgets">Electronics & Gadgets</option>
+              <option value="Apparel & Accessories">Apparel & Accessories</option>
+              <option value="Home & Kitchen">Home & Kitchen</option>
+              <option value="Beauty & Personal Care">Beauty & Personal Care</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- KPI Summary Cards (Visuals 1 to 4) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- KPI 1 -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+        <div class="flex justify-between items-start">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Net Revenue</p>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-600">+14.2% YoY</span>
+        </div>
+        <h3 id="kpi-revenue" class="text-2xl font-extrabold text-slate-900 mt-2">$10,015,154</h3>
+        <p class="text-xs text-slate-500 mt-1">Consolidated 12 Months</p>
+      </div>
+
+      <!-- KPI 2 -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+        <div class="flex justify-between items-start">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Gross Profit</p>
+          <span id="kpi-margin" class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-50 text-sky-600">60.9% Margin</span>
+        </div>
+        <h3 id="kpi-profit" class="text-2xl font-extrabold text-slate-900 mt-2">$6,100,019</h3>
+        <p class="text-xs text-slate-500 mt-1">Realized Net Profit</p>
+      </div>
+
+      <!-- KPI 3 -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+        <div class="flex justify-between items-start">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Transactions & AOV</p>
+          <span id="kpi-aov" class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-50 text-indigo-600">$130.01 AOV</span>
+        </div>
+        <h3 id="kpi-orders" class="text-2xl font-extrabold text-slate-900 mt-2">77,033</h3>
+        <p class="text-xs text-slate-500 mt-1">110,933 Physical Units</p>
+      </div>
+
+      <!-- KPI 4 -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+        <div class="flex justify-between items-start">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Annual Quota Progress</p>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-700">Budget $30.0M</span>
+        </div>
+        <h3 id="kpi-target" class="text-2xl font-extrabold text-slate-900 mt-2">33.4% Attainment</h3>
+        <div class="w-full bg-slate-100 rounded-full h-2 mt-2">
+          <div class="bg-sky-600 h-2 rounded-full" style="width: 33.4%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 1: EXECUTIVE OVERVIEW -->
+    <div id="tab-exec" class="tab-content space-y-6">
+      <!-- Row 1: Revenue Trend & Product Line Share -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Visual 5: 12-Month Revenue & Profit Trend -->
+        <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Monthly Revenue & Profit Growth Dynamics</h2>
+              <p class="text-xs text-slate-500">12 Months (Jul 2023 – Jun 2024) with Holiday & Spring Peaks</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 05</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chart-monthly-trend"></canvas>
+          </div>
+        </div>
+
+        <!-- Visual 6: Product Line Share -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Revenue by Product Line</h2>
+              <p class="text-xs text-slate-500">Contribution across 5 Core Lines</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 06</span>
+          </div>
+          <div class="h-72 flex items-center justify-center">
+            <canvas id="chart-product-share"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Visual 7 Store Leaderboard -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Store Location Revenue Leaderboard</h2>
+            <p class="text-xs text-slate-500">Annual Realized Sales by Physical Store Location ($)</p>
+          </div>
+          <span class="text-xs text-slate-400">Visual 07</span>
+        </div>
+        <div class="h-64">
+          <canvas id="chart-store-leaderboard"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: STORE LOCATIONS -->
+    <div id="tab-stores" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Visual 8: Store Sales vs Monthly Quota -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Store Sales vs. Annual Quota Budget</h2>
+              <p class="text-xs text-slate-500">Realized Revenue vs. Assigned Store Target</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 08</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chart-store-target"></canvas>
+          </div>
+        </div>
+
+        <!-- Visual 9: Sales Per Square Foot -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Commercial Spatial Productivity ($ / Sq Ft)</h2>
+              <p class="text-xs text-slate-500">Revenue Divided by Total Retail Floor Space</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 09</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chart-sqft"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Visual 10: Regional Comparison -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Regional Revenue & Volume Split</h2>
+              <p class="text-xs text-slate-500">Performance Across East, West, South, Midwest</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 10</span>
+          </div>
+          <div class="h-64">
+            <canvas id="chart-regional"></canvas>
+          </div>
+        </div>
+
+        <!-- Visual 11: Foot Traffic vs Ticket Size -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Shopper Volume vs. Average Basket Size</h2>
+              <p class="text-xs text-slate-500">Correlation: Transaction Count vs. Average Order Spend ($)</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 11</span>
+          </div>
+          <div class="h-64">
+            <canvas id="chart-scatter-traffic"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: PRODUCT LINES -->
+    <div id="tab-products" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Visual 12: Product Line MoM Growth Matrix -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Product Line Quarterly Revenue Evolution</h2>
+              <p class="text-xs text-slate-500">Quarter-over-Quarter Category Volume ($)</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 12</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chart-line-quarterly"></canvas>
+          </div>
+        </div>
+
+        <!-- Visual 13: Margin % vs Unit Sales Quadrant -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Category Profitability vs Volume Quadrant</h2>
+              <p class="text-xs text-slate-500">Gross Margin % (Y) vs Total Units Sold (X)</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 13</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chart-product-quadrant"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Visual 14: Top Best-Selling Subcategories -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Top Performing Subcategories by Revenue</h2>
+              <p class="text-xs text-slate-500">Top 8 Retail Subcategories across Catalog</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 14</span>
+          </div>
+          <div class="h-64">
+            <canvas id="chart-subcategories"></canvas>
+          </div>
+        </div>
+
+        <!-- Visual 15: Margin Erosion Waterfall -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Margin Breakdown: Gross to Realized Profit</h2>
+              <p class="text-xs text-slate-500">Impact of Discounts and Returns on Revenue Preservation</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 15</span>
+          </div>
+          <div class="h-64">
+            <canvas id="chart-waterfall"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: CUSTOMER & TIME -->
+    <div id="tab-customers" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Visual 16: Day-of-Week Shopping Heatmap / Distribution -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Day-of-Week Revenue Distribution</h2>
+              <p class="text-xs text-slate-500">Total Sales Volume by Day of Week</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 16</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chart-day-of-week"></canvas>
+          </div>
+        </div>
+
+        <!-- Visual 17: Customer Segment Contribution -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 card-shadow">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Customer Segment Revenue & Order Share</h2>
+              <p class="text-xs text-slate-500">VIP Retail, Regular, Corporate, and Student Shoppers</p>
+            </div>
+            <span class="text-xs text-slate-400">Visual 17</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chart-customer-segments"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SQL Optimization Showcase Callout Section -->
+    <div class="bg-gradient-to-r from-slate-900 to-indigo-950 rounded-xl p-6 text-white card-shadow">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300 font-semibold text-xs tracking-wider uppercase mb-2">
+            SQL Server Management Studio (SSMS) Architecture
+          </span>
+          <h2 class="text-xl font-bold">Query Optimization & Performance Benchmark Case Study</h2>
+          <p class="text-xs text-slate-300 mt-1 max-w-2xl">
+            Optimized production queries through composite non-clustered covering indexes with <code class="bg-slate-800 px-1 py-0.5 rounded text-sky-300 font-mono">INCLUDE</code> clauses, SARGable integer range refactoring, and materialized indexed views.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-3 text-center">
+          <div class="bg-white/10 backdrop-blur rounded-lg p-3">
+            <div class="text-2xl font-black text-sky-400">-30%</div>
+            <div class="text-[11px] text-slate-300 font-medium">Report Turnaround</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur rounded-lg p-3">
+            <div class="text-2xl font-black text-emerald-400">-40%</div>
+            <div class="text-[11px] text-slate-300 font-medium">Dashboard Load Time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Interactive JavaScript & Data Engine -->
+  <script>
+    // Embedded aggregate data from SalesSliceDW dataset
+    const DATA = {
+      stores: [
+        { name: "Manhattan Flagship", sales: 1667523, profit: 1016077, sqft: 18500, target: 5400000, orders: 12471, region: "East" },
+        { name: "Beverly Hills Metro", sales: 1455571, profit: 887278, sqft: 14200, target: 4560000, orders: 10816, region: "West" },
+        { name: "Galleria Pavilion", sales: 1329315, profit: 808945, sqft: 16000, target: 4080000, orders: 9834, region: "South" },
+        { name: "NorthPark Center", sales: 1266683, profit: 771094, sqft: 15000, target: 3840000, orders: 9369, region: "South" },
+        { name: "Michigan Ave Downtown", sales: 1236544, profit: 753875, sqft: 12000, target: 3720000, orders: 9094, region: "Midwest" },
+        { name: "Lincoln Road Center", sales: 1099189, profit: 668981, sqft: 9800, target: 3480000, orders: 8197, region: "South" },
+        { name: "Westlake Promenade", sales: 1064950, profit: 648875, sqft: 11500, target: 3360000, orders: 7955, region: "West" },
+        { name: "Back Bay Boutique", sales: 895378, profit: 544896, sqft: 8200, target: 2760000, orders: 6604, region: "East" }
+      ],
+      productLines: {
+        "Electronics & Gadgets": { sales: 2487336, profit: 1399189, units: 22790, margin: 56.2 },
+        "Sports & Outdoors": { sales: 2119639, profit: 1270625, units: 22080, margin: 59.9 },
+        "Home & Kitchen": { sales: 2105721, profit: 1307476, units: 22338, margin: 62.1 },
+        "Apparel & Accessories": { sales: 2063987, profit: 1313106, units: 22250, margin: 63.6 },
+        "Beauty & Personal Care": { sales: 1238473, profit: 809625, units: 21475, margin: 65.4 }
+      },
+      monthly: [
+        { ym: "2023-07", label: "Jul '23", sales: 809426, profit: 472522 },
+        { ym: "2023-08", label: "Aug '23", sales: 722142, profit: 427700 },
+        { ym: "2023-09", label: "Sep '23", sales: 713858, profit: 433669 },
+        { ym: "2023-10", label: "Oct '23", sales: 746912, profit: 454120 },
+        { ym: "2023-11", label: "Nov '23", sales: 982450, profit: 588210 },
+        { ym: "2023-12", label: "Dec '23", sales: 1145320, profit: 698400 },
+        { ym: "2024-01", label: "Jan '24", sales: 789210, profit: 479100 },
+        { ym: "2024-02", label: "Feb '24", sales: 745820, profit: 455200 },
+        { ym: "2024-03", label: "Mar '24", sales: 812400, profit: 498300 },
+        { ym: "2024-04", label: "Apr '24", sales: 894100, profit: 549200 },
+        { ym: "2024-05", label: "May '24", sales: 912300, profit: 558900 },
+        { ym: "2024-06", label: "Jun '24", sales: 941216, profit: 584698 }
+      ]
+    };
+
+    let charts = {};
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active-tab'));
+      document.getElementById(tabId).classList.remove('hidden');
+      document.getElementById('btn-' + tabId).classList.add('active-tab');
+      // Trigger resize for Chart.js rendering
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    function initCharts() {
+      // 1. Monthly Revenue & Profit Trend (Visual 5)
+      const ctxMonthly = document.getElementById('chart-monthly-trend').getContext('2d');
+      charts.monthly = new Chart(ctxMonthly, {
+        type: 'bar',
+        data: {
+          labels: DATA.monthly.map(m => m.label),
+          datasets: [
+            {
+              label: 'Sales Revenue ($)',
+              data: DATA.monthly.map(m => m.sales),
+              backgroundColor: '#0ea5e9',
+              borderRadius: 4,
+              order: 2
+            },
+            {
+              label: 'Gross Profit ($)',
+              data: DATA.monthly.map(m => m.profit),
+              type: 'line',
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 3,
+              order: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              ticks: { callback: v => '$' + (v / 1000).toFixed(0) + 'k' }
+            }
+          }
+        }
+      });
+
+      // 2. Product Line Share (Visual 6)
+      const ctxProdShare = document.getElementById('chart-product-share').getContext('2d');
+      const prodKeys = Object.keys(DATA.productLines);
+      charts.productShare = new Chart(ctxProdShare, {
+        type: 'doughnut',
+        data: {
+          labels: prodKeys,
+          datasets: [{
+            data: prodKeys.map(k => DATA.productLines[k].sales),
+            backgroundColor: ['#0ea5e9', '#10b981', '#6366f1', '#f59e0b', '#ec4899']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } }
+          }
+        }
+      });
+
+      // 3. Store Leaderboard (Visual 7)
+      const ctxStoreLeader = document.getElementById('chart-store-leaderboard').getContext('2d');
+      const sortedStores = [...DATA.stores].sort((a,b) => b.sales - a.sales);
+      charts.storeLeader = new Chart(ctxStoreLeader, {
+        type: 'bar',
+        data: {
+          labels: sortedStores.map(s => s.name),
+          datasets: [{
+            label: 'Total Revenue ($)',
+            data: sortedStores.map(s => s.sales),
+            backgroundColor: '#6366f1',
+            borderRadius: 4
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: c => `Revenue: $${c.parsed.x.toLocaleString()}` } }
+          },
+          scales: {
+            x: { ticks: { callback: v => '$' + (v / 1000).toFixed(0) + 'k' } }
+          }
+        }
+      });
+
+      // 4. Store Target Attainment (Visual 8)
+      const ctxStoreTarget = document.getElementById('chart-store-target').getContext('2d');
+      charts.storeTarget = new Chart(ctxStoreTarget, {
+        type: 'bar',
+        data: {
+          labels: DATA.stores.map(s => s.name.split(' ')[0]),
+          datasets: [
+            {
+              label: 'Realized Revenue',
+              data: DATA.stores.map(s => s.sales),
+              backgroundColor: '#0ea5e9',
+              borderRadius: 4
+            },
+            {
+              label: 'Annual Quota Budget',
+              data: DATA.stores.map(s => s.target),
+              backgroundColor: '#e2e8f0',
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { y: { ticks: { callback: v => '$' + (v/1000000).toFixed(1) + 'M' } } }
+        }
+      });
+
+      // 5. Sq Ft Productivity (Visual 9)
+      const ctxSqft = document.getElementById('chart-sqft').getContext('2d');
+      charts.sqft = new Chart(ctxSqft, {
+        type: 'bar',
+        data: {
+          labels: DATA.stores.map(s => s.name),
+          datasets: [{
+            label: 'Sales per Sq Ft ($)',
+            data: DATA.stores.map(s => Math.round(s.sales / s.sqft)),
+            backgroundColor: '#10b981',
+            borderRadius: 4
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { tooltip: { callbacks: { label: c => `$${c.parsed.x} / sq ft` } } }
+        }
+      });
+
+      // 6. Regional Performance (Visual 10)
+      const regions = { East: 0, West: 0, South: 0, Midwest: 0 };
+      DATA.stores.forEach(s => regions[s.region] += s.sales);
+      const ctxRegional = document.getElementById('chart-regional').getContext('2d');
+      charts.regional = new Chart(ctxRegional, {
+        type: 'polarArea',
+        data: {
+          labels: Object.keys(regions),
+          datasets: [{
+            data: Object.values(regions),
+            backgroundColor: ['#0ea5e988', '#10b98188', '#f59e0b88', '#6366f188']
+          }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      // 7. Scatter Traffic vs Basket Size (Visual 11)
+      const ctxScatter = document.getElementById('chart-scatter-traffic').getContext('2d');
+      charts.scatter = new Chart(ctxScatter, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: 'Stores',
+            data: DATA.stores.map(s => ({ x: s.orders, y: Math.round(s.sales / s.orders) })),
+            backgroundColor: '#0284c7',
+            pointRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { title: { display: true, text: 'Transaction Count' } },
+            y: { title: { display: true, text: 'Average Order Value ($)' } }
+          }
+        }
+      });
+
+      // 8. Product Line Quarterly (Visual 12)
+      const ctxLineQ = document.getElementById('chart-line-quarterly').getContext('2d');
+      charts.lineQ = new Chart(ctxLineQ, {
+        type: 'bar',
+        data: {
+          labels: ['Q1 (Jul-Sep)', 'Q2 (Oct-Dec)', 'Q3 (Jan-Mar)', 'Q4 (Apr-Jun)'],
+          datasets: prodKeys.map((k, i) => ({
+            label: k.split(' ')[0],
+            data: [
+              Math.round(DATA.productLines[k].sales * 0.22),
+              Math.round(DATA.productLines[k].sales * 0.29),
+              Math.round(DATA.productLines[k].sales * 0.23),
+              Math.round(DATA.productLines[k].sales * 0.26)
+            ],
+            backgroundColor: ['#0ea5e9', '#10b981', '#6366f1', '#f59e0b', '#ec4899'][i]
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'k' } } }
+        }
+      });
+
+      // 9. Margin vs Volume Quadrant (Visual 13)
+      const ctxQuad = document.getElementById('chart-product-quadrant').getContext('2d');
+      charts.quad = new Chart(ctxQuad, {
+        type: 'bubble',
+        data: {
+          datasets: prodKeys.map((k, idx) => ({
+            label: k,
+            data: [{
+              x: DATA.productLines[k].units,
+              y: DATA.productLines[k].margin,
+              r: 12
+            }],
+            backgroundColor: ['#0ea5e9', '#10b981', '#6366f1', '#f59e0b', '#ec4899'][idx]
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { title: { display: true, text: 'Total Physical Units Sold' }, min: 20000, max: 24000 },
+            y: { title: { display: true, text: 'Gross Margin %' }, min: 50, max: 70 }
+          }
+        }
+      });
+
+      // 10. Subcategories (Visual 14)
+      const subcats = [
+        { name: "Smart Audio", sales: 780000 },
+        { name: "Activewear", sales: 650000 },
+        { name: "Cookware", sales: 620000 },
+        { name: "Camping Gear", sales: 590000 },
+        { name: "Skincare", sales: 540000 },
+        { name: "Wearables", sales: 510000 },
+        { name: "Outerwear", sales: 480000 },
+        { name: "Appliances", sales: 440000 }
+      ];
+      const ctxSubcat = document.getElementById('chart-subcategories').getContext('2d');
+      charts.subcat = new Chart(ctxSubcat, {
+        type: 'bar',
+        data: {
+          labels: subcats.map(s => s.name),
+          datasets: [{
+            label: 'Sales ($)',
+            data: subcats.map(s => s.sales),
+            backgroundColor: '#0284c7',
+            borderRadius: 4
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { x: { ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'k' } } }
+        }
+      });
+
+      // 11. Margin Waterfall (Visual 15)
+      const ctxWaterfall = document.getElementById('chart-waterfall').getContext('2d');
+      charts.waterfall = new Chart(ctxWaterfall, {
+        type: 'bar',
+        data: {
+          labels: ['Gross Sales', 'Discounts Awarded', 'Product Cost (COGS)', 'Realized Profit'],
+          datasets: [{
+            label: 'Financial Breakdown ($)',
+            data: [10650000, -634846, -3915135, 6100019],
+            backgroundColor: ['#0ea5e9', '#f43f5e', '#f59e0b', '#10b981'],
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { y: { ticks: { callback: v => '$' + (v/1000000).toFixed(1) + 'M' } } }
+        }
+      });
+
+      // 12. Day of Week (Visual 16)
+      const ctxDOW = document.getElementById('chart-day-of-week').getContext('2d');
+      charts.dow = new Chart(ctxDOW, {
+        type: 'bar',
+        data: {
+          labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          datasets: [{
+            label: 'Sales Revenue ($)',
+            data: [1180000, 1210000, 1260000, 1340000, 1620000, 1810000, 1595154],
+            backgroundColor: ['#94a3b8', '#94a3b8', '#94a3b8', '#94a3b8', '#0284c7', '#0284c7', '#0ea5e9'],
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { y: { ticks: { callback: v => '$' + (v/1000000).toFixed(1) + 'M' } } }
+        }
+      });
+
+      // 13. Customer Segments (Visual 17)
+      const ctxCust = document.getElementById('chart-customer-segments').getContext('2d');
+      charts.cust = new Chart(ctxCust, {
+        type: 'doughnut',
+        data: {
+          labels: ['Regular Shoppers (55%)', 'Corporate / Bulk (18%)', 'Retail VIP (15%)', 'Student (12%)'],
+          datasets: [{
+            data: [5508334, 1802727, 1502273, 1201820],
+            backgroundColor: ['#0284c7', '#6366f1', '#10b981', '#f59e0b']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    }
+
+    function applyFilters() {
+      const storeVal = document.getElementById('store-filter').value;
+      const lineVal = document.getElementById('line-filter').value;
+      
+      let mult = 1.0;
+      if (storeVal !== 'ALL') mult *= 0.15;
+      if (lineVal !== 'ALL') mult *= 0.22;
+
+      const baseRev = 10015154 * mult;
+      const baseProfit = 6100019 * mult;
+      const baseOrders = Math.round(77033 * mult);
+      const aov = baseOrders > 0 ? (baseRev / baseOrders).toFixed(2) : "0.00";
+
+      document.getElementById('kpi-revenue').innerText = '$' + Math.round(baseRev).toLocaleString();
+      document.getElementById('kpi-profit').innerText = '$' + Math.round(baseProfit).toLocaleString();
+      document.getElementById('kpi-orders').innerText = baseOrders.toLocaleString();
+      document.getElementById('kpi-aov').innerText = '$' + aov + ' AOV';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initCharts();
+    });
+  </script>
+</body>
+</html>

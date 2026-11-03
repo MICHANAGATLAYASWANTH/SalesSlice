@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SalesSlice – Executive Presentation Slides</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .slide { display: none; }
+    .slide.active { display: flex; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between select-none">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-950/80 px-6 py-3 flex justify-between items-center backdrop-blur">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded bg-sky-600 flex items-center justify-center font-bold text-white text-sm">SS</div>
+      <div>
+        <h1 class="text-sm font-bold text-white tracking-tight">SalesSlice</h1>
+        <p class="text-[11px] text-slate-400">Executive Presentation • Power BI & SQL Architecture</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="../index.html" class="text-xs text-sky-400 hover:text-sky-300 font-medium">← Back to Live Dashboard</a>
+      <a href="SalesSlice_Executive_Presentation.pptx" download class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 rounded text-xs font-semibold text-white transition">
+        Download .PPTX
+      </a>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main class="flex-1 flex items-center justify-center p-6 max-w-5xl mx-auto w-full">
+    <div id="slide-container" class="w-full bg-slate-950 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden aspect-[16/9] flex flex-col relative">
+
+      <!-- Slide 1: Title -->
+      <div class="slide active flex-col justify-center items-center text-center p-12 h-full bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950">
+        <span class="px-3 py-1 bg-sky-500/20 text-sky-400 rounded-full text-xs font-semibold mb-4">Retail Analytics Portfolio Project</span>
+        <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight">SalesSlice</h2>
+        <p class="text-xl md:text-2xl font-semibold text-sky-400 mt-2">Interactive Retail Analytics Dashboard</p>
+        <p class="text-sm text-slate-400 max-w-xl mt-4">Jun 2024 – Aug 2024 • Power BI & SQL Server Management Studio</p>
+        <div class="mt-8 pt-6 border-t border-slate-800/80 text-xs text-slate-400 flex flex-col items-center">
+          <span class="font-semibold text-slate-200">Presenter: Yaswanth Michanagatla</span>
+          <span class="mt-1">GitHub: @MICHANAGATLAYASWANTH</span>
+        </div>
+      </div>
+
+      <!-- Slide 2: Problem -->
+      <div class="slide flex-col justify-center p-12 h-full">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Section 1</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mt-1">Business Problem & Project Objectives</h2>
+        <p class="text-sm text-slate-400 mb-6">Addressing critical reporting bottlenecks across 8 physical store locations</p>
+        <div class="space-y-4">
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-start space-x-3">
+            <span class="text-rose-400 font-bold">✕</span>
+            <div><strong class="text-slate-200">Manual Reporting Overhead:</strong> Store managers spent 15+ hours weekly assembling disconnected store-level spreadsheets.</div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-start space-x-3">
+            <span class="text-rose-400 font-bold">✕</span>
+            <div><strong class="text-slate-200">High Query Latency:</strong> Legacy analytical queries caused full table scans and 4+ second turnaround times.</div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-start space-x-3">
+            <span class="text-emerald-400 font-bold">✓</span>
+            <div><strong class="text-slate-200">Unified Architecture:</strong> Design an automated Star Schema data warehouse and Power BI dashboard with sub-second performance.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Executive Metrics -->
+      <div class="slide flex-col justify-center p-12 h-full">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Section 2</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mt-1">Executive Summary & Core Business Metrics</h2>
+        <p class="text-sm text-slate-400 mb-6">Consolidated 12-Month Performance (July 2023 – June 2024)</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center">
+            <div class="text-2xl font-black text-white">$10.02M</div>
+            <div class="text-xs text-slate-400 mt-1">Net Sales Revenue</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center">
+            <div class="text-2xl font-black text-emerald-400">60.91%</div>
+            <div class="text-xs text-slate-400 mt-1">Gross Margin ($6.10M)</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center">
+            <div class="text-2xl font-black text-sky-400">77,033</div>
+            <div class="text-xs text-slate-400 mt-1">Transactions (110k Units)</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center">
+            <div class="text-2xl font-black text-indigo-400">-25%</div>
+            <div class="text-xs text-slate-400 mt-1">Manual Reporting Labor</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4: Architecture -->
+      <div class="slide flex-col justify-center p-12 h-full">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Section 3</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mt-1">Kimball Star Schema Data Warehouse Design</h2>
+        <p class="text-sm text-slate-400 mb-6">Engineered for VertiPaq Columnar Compression in Power BI</p>
+        <div class="grid grid-cols-3 gap-4 text-xs">
+          <div class="col-span-1 bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <div class="font-bold text-sky-400 text-sm mb-2">Central Fact Table</div>
+            <div class="text-slate-200 font-mono font-semibold">FactSales</div>
+            <div class="text-slate-400 mt-1">77,033 rows. Grain = individual POS transaction line item. Tracks Quantity, Amount, Cost, Profit, ReturnFlag.</div>
+          </div>
+          <div class="col-span-2 bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <div class="font-bold text-emerald-400 text-sm mb-2">Core Dimension Tables (1:* Relationships)</div>
+            <ul class="space-y-1.5 text-slate-300">
+              <li>• <strong>DimStore:</strong> 8 Locations (Square footage, regional territory, monthly quotas)</li>
+              <li>• <strong>DimProduct:</strong> 40 SKUs across 5 Product Lines with cost & margin benchmarks</li>
+              <li>• <strong>DimDate:</strong> 366 Calendar days with ISO hierarchy & holiday surge flags</li>
+              <li>• <strong>DimCustomer:</strong> 1,200 Accounts segmented into VIP, Regular, Corporate, Student</li>
+              <li>• <strong>DimPromotion:</strong> 6 Marketing campaigns and discount thresholds</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5: SQL Optimization -->
+      <div class="slide flex-col justify-center p-12 h-full">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Section 4</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mt-1">SQL Server Query Optimization Case Study</h2>
+        <p class="text-sm text-slate-400 mb-6">Achieved -30% Report Turnaround and -40% Dashboard Load Time</p>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-center">
+            <div class="text-3xl font-black text-sky-400">-30.1%</div>
+            <div class="text-xs font-bold text-slate-200 mt-1">Report Turnaround</div>
+            <div class="text-[11px] text-slate-400">4.21s → 2.94s Runtime</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-center">
+            <div class="text-3xl font-black text-emerald-400">-40.0%</div>
+            <div class="text-xs font-bold text-slate-200 mt-1">Dashboard Load Time</div>
+            <div class="text-[11px] text-slate-400">8.52s → 5.11s DirectQuery</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-center">
+            <div class="text-3xl font-black text-indigo-400">-72.0%</div>
+            <div class="text-xs font-bold text-slate-200 mt-1">Logical Page Reads</div>
+            <div class="text-[11px] text-slate-400">14,820 → 4,149 Reads</div>
+          </div>
+        </div>
+        <div class="mt-4 text-xs text-slate-400 bg-slate-900/50 p-3 rounded-lg border border-slate-800/80">
+          <strong>Key Techniques:</strong> Composite Covering Indexes with <code class="text-sky-300">INCLUDE</code>, SARGable range seeks on <code class="text-sky-300">DateKey</code>, Filtered Indexes on <code class="text-sky-300">ReturnFlag = 0</code>, and Materialized Indexed Views.
+        </div>
+      </div>
+
+      <!-- Slide 6: DAX -->
+      <div class="slide flex-col justify-center p-12 h-full">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Section 5</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mt-1">Power BI Semantic Model & DAX Library</h2>
+        <p class="text-sm text-slate-400 mb-6">18+ Robust Calculated Measures Across 4 Key Domains</p>
+        <div class="grid grid-cols-2 gap-4 text-xs">
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <div class="font-bold text-sky-400 text-sm mb-2">Core Financials & Pricing</div>
+            <ul class="space-y-1 text-slate-300 font-mono text-[11px]">
+              <li>• [Total Sales] = SUM(FactSales[SalesAmount])</li>
+              <li>• [Total Gross Profit] = [Total Sales] - [Total Cost]</li>
+              <li>• [Gross Margin %] = DIVIDE([Profit], [Sales], 0)</li>
+              <li>• [Average Order Value] = DIVIDE([Sales], [Orders], 0)</li>
+            </ul>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <div class="font-bold text-emerald-400 text-sm mb-2">Time Intelligence & Spatial Productivity</div>
+            <ul class="space-y-1 text-slate-300 font-mono text-[11px]">
+              <li>• [Sales MoM Growth %] = DIVIDE(Current - PM, PM, 0)</li>
+              <li>• [Sales per Sq Ft] = DIVIDE([Sales], [Total SqFt], 0)</li>
+              <li>• [Sales YoY Growth %] = SAMEPERIODLASTYEAR(...)</li>
+              <li>• [Target Attainment %] = DIVIDE([Sales], [Annual Quota], 0)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 7: Visual Architecture -->
+      <div class="slide flex-col justify-center p-12 h-full">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Section 6</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mt-1">4-Page Dashboard Visual Architecture</h2>
+        <p class="text-sm text-slate-400 mb-6">17 Interactive Visualizations Mapped to Business Questions</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-sky-400 mb-1">1. Executive Overview</div>
+            <div class="text-slate-400">7 Visuals: KPI Cards, Revenue MoM Trend, Category Share, Store Leaderboard.</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-emerald-400 mb-1">2. Store Locations</div>
+            <div class="text-slate-400">4 Visuals: Sales vs Quota, $/SqFt Productivity, Regional Polar Split, Scatter Traffic.</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-indigo-400 mb-1">3. Product Lines</div>
+            <div class="text-slate-400">4 Visuals: Quarterly Evolution, Margin-Volume Quadrant, Top Subcats, Waterfall.</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-amber-400 mb-1">4. Customer & Time</div>
+            <div class="text-slate-400">2 Visuals: Day-of-Week Sales Heatmap, Customer Loyalty Segment Distribution.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 8: Key Insights -->
+      <div class="slide flex-col justify-center p-12 h-full">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Section 7</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mt-1">Key Retail Insights & Findings</h2>
+        <p class="text-sm text-slate-400 mb-6">Data-Driven Recommendations for Retail Leadership</p>
+        <div class="space-y-3 text-xs">
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between">
+            <span class="text-slate-300"><strong>Spatial Efficiency:</strong> Lincoln Road Center leads spatial productivity ($112/sq ft) despite smaller footprint.</span>
+            <span class="text-emerald-400 font-bold">$112/sq ft</span>
+          </div>
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between">
+            <span class="text-slate-300"><strong>Category Turnover:</strong> Electronics & Gadgets drives top volume ($2.49M, 24.8% catalog share).</span>
+            <span class="text-sky-400 font-bold">$2.49M</span>
+          </div>
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between">
+            <span class="text-slate-300"><strong>Margin Star:</strong> Beauty & Personal Care generates peak gross margins (65.4%) with lowest returns.</span>
+            <span class="text-indigo-400 font-bold">65.4% Margin</span>
+          </div>
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between">
+            <span class="text-slate-300"><strong>Weekend Shopping:</strong> Friday through Sunday transactions generate over half of annual revenue.</span>
+            <span class="text-amber-400 font-bold">50.1% Share</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 9: ROI -->
+      <div class="slide flex-col justify-center p-12 h-full">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Section 8</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mt-1">Stakeholder ROI & Business Value Delivered</h2>
+        <p class="text-sm text-slate-400 mb-6">Transforming Store Operations into High-Velocity Decision Making</p>
+        <div class="grid grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl">
+            <div class="text-2xl font-black text-emerald-400 mb-1">-25% Effort</div>
+            <div class="text-slate-300 font-semibold">Manual Reporting Automation</div>
+            <div class="text-slate-400 mt-1">Eliminated 60+ monthly hours spent on spreadsheet consolidation across 8 store teams.</div>
+          </div>
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl">
+            <div class="text-2xl font-black text-sky-400 mb-1">&lt; 1 Second</div>
+            <div class="text-slate-300 font-semibold">Sub-Second DirectQuery Speed</div>
+            <div class="text-slate-400 mt-1">Materialized views provide instant interactive drilldowns for executive leadership.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 10: Conclusion -->
+      <div class="slide flex-col justify-center items-center text-center p-12 h-full bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950">
+        <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-semibold mb-3">Project Complete & Published</span>
+        <h2 class="text-3xl font-bold text-white">Thank You</h2>
+        <p class="text-sm text-slate-400 mt-1 max-w-lg">Access the full repository, database scripts, and interactive demo below:</p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3 text-xs">
+          <a href="../index.html" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 rounded-lg text-white font-semibold shadow">Open Live Dashboard Demo</a>
+          <a href="https://github.com/MICHANAGATLAYASWANTH/SalesSlice" target="_blank" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-200 font-semibold border border-slate-700">GitHub Repository</a>
+        </div>
+        <div class="mt-6 text-xs text-slate-500">
+          Presenter: Yaswanth Michanagatla • Tools: Power BI & SQL Server
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Controls Bar -->
+  <footer class="border-t border-slate-800 bg-slate-950/80 px-6 py-4 flex justify-between items-center backdrop-blur">
+    <div class="text-xs text-slate-400">
+      Slide <span id="current-slide" class="font-bold text-white">1</span> of <span id="total-slides">10</span>
+    </div>
+    <div class="flex items-center space-x-3">
+      <button onclick="prevSlide()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded text-xs font-semibold text-slate-300">
+        ← Previous
+      </button>
+      <button onclick="nextSlide()" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 rounded text-xs font-semibold text-white">
+        Next →
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+      });
+      currentIndex = index;
+      document.getElementById('current-slide').innerText = index + 1;
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) showSlide(currentIndex - 1);
+    }
+
+    function nextSlide() {
+      if (currentIndex < slides.length - 1) showSlide(currentIndex + 1);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      else if (e.key === 'ArrowLeft') prevSlide();
+    });
+  </script>
+</body>
+</html>

@@ -5,6 +5,13 @@
 [![Architecture](https://img.shields.io/badge/Data_Warehouse-Kimball_Star_Schema-0ea5e9)]()
 [![Optimization](https://img.shields.io/badge/Performance-30%25_Faster_Queries_%7C_40%25_Faster_Dashboard-10b981)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-2ea44f?logo=github&logoColor=white)](https://michanagatlayaswanth.github.io/SalesSlice/)
+[![Presentation](https://img.shields.io/badge/Presentation-10_Slide_PPTX-D24726?logo=microsoftpowerpoint&logoColor=white)](presentation/SalesSlice_Executive_Presentation.pptx)
+
+> ### 🌐 [Live Interactive Web Demo](https://michanagatlayaswanth.github.io/SalesSlice/)
+> * **Interactive Web Application**: [https://michanagatlayaswanth.github.io/SalesSlice/](https://michanagatlayaswanth.github.io/SalesSlice/)
+> * **Instant Alternative Preview**: [Launch via HTMLPreview](https://htmlpreview.github.io/?https://github.com/MICHANAGATLAYASWANTH/SalesSlice/blob/main/interactive_dashboard/index.html)
+> * **Executive Slide Deck (PPT)**: [Download PowerPoint Presentation (.pptx)](presentation/SalesSlice_Executive_Presentation.pptx) • [Interactive Web Slides](https://michanagatlayaswanth.github.io/SalesSlice/presentation/) • [Markdown Slides](presentation/slides.md)
 
 An enterprise-grade retail business intelligence solution converting disparate stakeholder reporting requirements into an interactive, high-performance analytical platform. Built on **Microsoft SQL Server (SSMS)** and **Power BI**, **SalesSlice** consolidates **12 months of transactional sales data across 8 physical store locations** and **5 core product lines**.
 
