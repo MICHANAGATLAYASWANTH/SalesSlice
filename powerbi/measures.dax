@@ -1,0 +1,215 @@
+// ============================================================================
+// Project: SalesSlice – Interactive Retail Analytics Dashboard
+// Component: DAX Measures Library
+// Purpose: Core Financials, Time Intelligence, Store Efficiency & Growth Metrics
+// Format: Tabular Model / Power BI Desktop DAX Format
+// ============================================================================
+
+// ============================================================================
+// 1. CORE FINANCIAL MEASURES
+// ============================================================================
+
+[Total Sales] = 
+CALCULATE(
+    SUM(FactSales[SalesAmount]),
+    FactSales[ReturnFlag] = 0
+)
+/* Description: Sum of net sales revenue excluding returns. */
+
+[Total Units Sold] = 
+CALCULATE(
+    SUM(FactSales[Quantity]),
+    FactSales[ReturnFlag] = 0
+)
+/* Description: Total number of discrete physical units sold across orders. */
+
+[Total Cost of Goods Sold] = 
+CALCULATE(
+    SUM(FactSales[TotalCost]),
+    FactSales[ReturnFlag] = 0
+)
+/* Description: Total supplier cost of products sold. */
+
+[Total Gross Profit] = 
+[Total Sales] - [Total Cost of Goods Sold]
+/* Description: Net margin dollars generated after product cost. */
+
+[Gross Margin %] = 
+DIVIDE(
+    [Total Gross Profit],
+    [Total Sales],
+    0
+)
+/* Description: Percentage of gross profit realized relative to total sales. Formatted as Percentage. */
+
+[Total Transactions] = 
+CALCULATE(
+    COUNTROWS(FactSales),
+    FactSales[ReturnFlag] = 0
+)
+/* Description: Count of completed customer sales transactions. */
+
+[Average Order Value (AOV)] = 
+DIVIDE(
+    [Total Sales],
+    [Total Transactions],
+    0
+)
+/* Description: Average monetary spend per retail transaction. Formatted as Currency ($). */
+
+[Total Discounts] = 
+SUM(FactSales[DiscountAmount])
+/* Description: Total dollar value of price concessions and promotional markdowns. */
+
+[Discount Rate %] = 
+DIVIDE(
+    [Total Discounts],
+    [Total Sales] + [Total Discounts],
+    0
+)
+/* Description: Percentage of gross sticker price discounted. */
+
+[Return Rate %] = 
+VAR TotalAllTransactions = COUNTROWS(FactSales)
+VAR ReturnedTransactions = CALCULATE(COUNTROWS(FactSales), FactSales[ReturnFlag] = 1)
+RETURN
+DIVIDE(ReturnedTransactions, TotalAllTransactions, 0)
+/* Description: Proportion of customer purchases returned for refunds. */
+
+
+// ============================================================================
+// 2. TIME INTELLIGENCE & GROWTH DYNAMICS
+// ============================================================================
+
+[Sales YTD] = 
+TOTALYTD(
+    [Total Sales],
+    DimDate[FullDate]
+)
+/* Description: Cumulative Year-To-Date revenue using standard calendar dates. */
+
+[Sales Prior Month (PM)] = 
+CALCULATE(
+    [Total Sales],
+    DATEADD(DimDate[FullDate], -1, MONTH)
+)
+/* Description: Sales revenue achieved during the equivalent prior month. */
+
+[MoM Sales Growth $] = 
+VAR CurrentSales = [Total Sales]
+VAR PriorSales = [Sales Prior Month (PM)]
+RETURN
+IF(
+    ISBLANK(PriorSales),
+    BLANK(),
+    CurrentSales - PriorSales
+)
+/* Description: Dollar change in sales compared to prior month. */
+
+[MoM Sales Growth %] = 
+VAR CurrentSales = [Total Sales]
+VAR PriorSales = [Sales Prior Month (PM)]
+RETURN
+DIVIDE(
+    CurrentSales - PriorSales,
+    PriorSales,
+    0
+)
+/* Description: Percentage growth or contraction relative to prior month. */
+
+[Sales Prior Year (PY)] = 
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR(DimDate[FullDate])
+)
+/* Description: Same Period Last Year comparative sales. */
+
+[YoY Sales Growth %] = 
+VAR CurrentSales = [Total Sales]
+VAR PriorYearSales = [Sales Prior Year (PY)]
+RETURN
+DIVIDE(
+    CurrentSales - PriorYearSales,
+    PriorYearSales,
+    0
+)
+/* Description: Year-over-Year revenue expansion rate. */
+
+[Sales 3M Moving Average] = 
+AVERAGEX(
+    DATESINPERIOD(
+        DimDate[FullDate],
+        LASTDATE(DimDate[FullDate]),
+        -3,
+        MONTH
+    ),
+    [Total Sales]
+)
+/* Description: 3-month trailing moving average to smooth seasonal fluctuations. */
+
+
+// ============================================================================
+// 3. STORE LOCATION EFFICIENCY & TARGET TRACKING
+// ============================================================================
+
+[Total Store SqFt] = 
+SUM(DimStore[SquareFootage])
+/* Description: Total aggregate retail sales floor area in square feet. */
+
+[Sales per Sq Ft] = 
+DIVIDE(
+    [Total Sales],
+    [Total Store SqFt],
+    0
+)
+/* Description: Commercial spatial productivity metric ($/sq ft). */
+
+[Annual Store Target] = 
+SUM(DimStore[MonthlySalesTarget]) * 12
+/* Description: Consolidated 12-month budget quota for selected store(s). */
+
+[Target Attainment %] = 
+DIVIDE(
+    [Total Sales],
+    [Annual Store Target],
+    0
+)
+/* Description: Percentage of revenue goal completed against annual plan. */
+
+[Store Revenue Rank] = 
+RANKX(
+    ALLSELECTED(DimStore[StoreName]),
+    [Total Sales],
+    ,
+    DESC,
+    Dense
+)
+/* Description: Numerical leaderboard position (1 to 8) for store location. */
+
+
+// ============================================================================
+// 4. PRODUCT LINE & CATEGORY SHARE
+// ============================================================================
+
+[Product Line Revenue Share %] = 
+DIVIDE(
+    [Total Sales],
+    CALCULATE(
+        [Total Sales],
+        ALLSELECTED(DimProduct[ProductLine])
+    ),
+    0
+)
+/* Description: Contribution margin percentage of selected product category to overall catalog. */
+
+[Top 10 Products Revenue] = 
+CALCULATE(
+    [Total Sales],
+    TOPN(
+        10,
+        ALLSELECTED(DimProduct),
+        [Total Sales],
+        DESC
+    )
+)
+/* Description: Aggregate sales captured solely by top 10 revenue-driving SKUs. */
